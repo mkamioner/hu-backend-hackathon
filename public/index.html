@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>Hackathon Guessing Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link href="https://netdna.bootstrapcdn.com/bootswatch/3.3.6/darkly/bootstrap.min.css" rel="stylesheet"/>
+  </head>
+  <body ng-app="guessing-game">
+    <div class="container" ng-controller="index-controller">
+      <h1>Number Guessing Game</h1>
+      <div class="well" ng-show="state === 'ready'">
+        <p>To start playing, enter your name</p>
+        <div class="input-group">
+          <input type="text" ng-model="playerName" class="form-control" placeholder="Your name">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="startGame()">Go!</button>
+          </span>
+        </div>
+      </div>
+      <div class="well" ng-show="state === 'playing'">
+        <div class="input-group">
+          <input type="text" ng-model="nextGuess" class="form-control" placeholder="0 - 999">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="submitGuess()">Guess</button>
+          </span>
+        </div>
+        <h3>Guessses</h3>
+        <ul>
+          <li ng-repeat="guesses in history">
+            {{ guesses.guess }} was {{ guesses.result > 0 ? "too high" : "too low" }}
+          </li>
+        </ul>
+      </div>
+      <div class="well" ng-show="state === 'finished'">
+        <h2>You win!</h2>
+        <p>The correct number was <b>{{ history[0].guess }}</b></p>
+        <button class="btn btn-info" ng-click="resetGame()">Play Again</button>
+      </div>
+      <div class="well">
+        <h3>Scoreboard</h3>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Guesses</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="entry in scoreboard">
+              <td>{{ ($index + 1) }}</td>
+              <td>{{ entry.guesses }}</td>
+              <td>{{ entry.playerName }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.20.2.min.js"></script>
+    <script src="https://cdn.pubnub.com/sdk/pubnub-angular/pubnub-angular-4.1.0.min.js"></script>
+    <script src="/script.js"></script>
+  </body>
+</html>
